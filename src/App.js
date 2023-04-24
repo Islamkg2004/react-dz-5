@@ -1,47 +1,78 @@
 import Modal from "./components/Modal/Modal";
-import {useState} from "react";
+import React, {useState} from "react";
 import classes from "./App.module.css";
 import Container from "./components/container/Container";
 import Button from "./components/button/Button";
-import List from "./components/List/List";
-import Input from "./components/Input/Input";
+import TodoCard from "./components/TodoCard/TodoCard";
 function App() {
 
-
     const [isShow, setIsShow] = useState(false)
-    // const  [count, setCount] = useState(1);
+    const [newTask, setNewTask] = useState('')
+    const [search, setSearch] = useState('')
+    const [tasks, setTasks] = useState(
+        [
+            {
+                id:1 ,
+                title: 'coding',
+                completed:false
+            },
+            {
+                id:2,
+                title: 'eat',
+                completed:false
+            },
+            {
+                id:3,
+                title: 'sleep',
+                completed:false
+            },
+            {
+                id:4,
+                title: 'coding',
+                completed:false
+            }
+        ]
+    )
+
     const handleShow = () => {
         setIsShow(!isShow)
-        console.log(isShow, "isShow")
 
     }
-    const  [task,setTask] = useState([
-        {
-            id:1 ,
-            task: 'coding'
-        },
-        {
-            id:2,
-            task: 'eat'
-        },
-        {
-            id:3,
-            task: 'sleep'
+    const  handleAddTasks =()=>{
+        if(newTask.length < 1 ){
+            return
         }
-    ])
-    // const handleAdd = () =>{
-    //     setCount((prevState)=> prevState += 1 )
-    // }
-    // const handleMinus = () =>{
-    //     setCount((prevState)=> prevState -= 1 )
-    // }
-    const [searchValue, setSearchValue] = useState('');
 
-    const handleSearchChange = (value) => {
-        setSearchValue(value);
-    };
+        setTasks((prevState) => [...prevState,
+            {
+                id: Date.now(),
+                title: newTask,
+                completed: false
+            }
+        ])
+        setNewTask('')
+        handleShow()
+    }
+    const handleDone = (id) => {
+      const newList = tasks.map(task => {
+            if (task.id === id ) {
+             return  {...task, completed: !task.completed}
+            }else {
+                return  task
+            }
+        })
 
+        setTasks([...newList])
+    }
 
+const handleSearch = (event) =>{
+setSearch(event.target.value)
+}
+const  fileteredTask = tasks.filter(task => task.title.toLowerCase().includes(search.toLowerCase()))
+
+    const handleDelete = (id) => {
+    setTasks(tasks.filter((task)=>task.id !== id))
+    }
 
 
 
@@ -49,28 +80,28 @@ function App() {
         <>
             <Container>
                 <div className={classes.wrapper}>
-                    {isShow && <Modal hadnlShow={handleShow}/>}
-                    {/*<h2>{count}</h2>*/}
+                    {isShow && <Modal
+                        setNewTask={setNewTask}
+                        handleAddTasks={handleAddTasks}
+                        handleShow={handleShow}/>}
                 <Button handleClick={handleShow}>
                     <p>
                         Добавить
                     </p>
                 </Button>
+                    <input type="text" name="search" placeholder="Поиск" onChange={handleSearch}
+                    />
+                    {fileteredTask.map(task =>
+                        <TodoCard
+                            handleDone={handleDone}
+                            handleDelete={handleDelete}
+                            task={task}
+                            key={task.id}/>) }
 
-                    {/*<button onClick={handleAdd}> add</button>*/}
-                    {/*<button onClick={handleMinus}> minus</button>*/}
 
-                <List
-                    list={task}
-                />
                 </div>
 
-                <Input
-                    name="searchInput"
-                    placeholder="Search for something"
-                    onChange={handleSearchChange}
-                />
-                <h2> {searchValue}</h2>
+
             </Container>
         </>
 

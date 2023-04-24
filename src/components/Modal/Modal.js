@@ -1,30 +1,19 @@
-import React, {useState} from 'react';
+import React from 'react';
 import classes from "./Module.module.css";
-import Input from "../Input/Input";
+import Button from "../button/Button";
 
 
-
-function Modal({hadnlShow}) {
-    const [searchValue, setSearchValue] = useState('');
-
-    const handleSearchChange = (value) => {
-        setSearchValue(value);
-    };
-    const  handleChangeInput = (e) => {
-        console.log(e.target.value,"event")
-    }
+function Modal({handleShow, setNewTask, handleAddTasks}) {
 
     return (
         <>
-        <div  onClick={hadnlShow} className={classes.modalWrapper}></div>
+        <div  onClick={handleShow} className={classes.modalWrapper}></div>
         <div className={classes.modalContent}>
-            <input onChange={handleChangeInput} type="text" name="task"/>
-            <Input
-                name="searchInput"
-                placeholder="Search for something"
-                onChange={handleSearchChange}
-            />
-            <h2> {searchValue}</h2>
+            <input
+                onChange={(event)=>setNewTask(event.target.value)} type="text" name="task"/>
+            <Button handleClick={handleAddTasks} >
+                <p>Добавить Task</p>
+            </Button>
         </div>
 
 

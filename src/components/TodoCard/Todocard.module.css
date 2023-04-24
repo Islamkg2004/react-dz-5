@@ -1,0 +1,42 @@
+.todoCard{
+    display: flex;
+    width: 600px;
+    height: 100px;
+    background-color: white;
+    box-shadow: 4px 4px 20px rgba(185, 186,185,0.75);
+    margin-top: 10px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+.done {
+    text-decoration: line-through;
+    background-color: greenyellow;
+    margin-left: 10px;
+    color: blue;
+}
+.delete {
+    background-color: red;
+    margin-left: 10px;
+    border-radius: 8px;
+    width: 60px;
+    height: 40px;
+}
+
+.copmleted {
+    margin-left: 10px;
+
+    display: inline-block;
+    outline: 0;
+    border: none;
+    cursor: pointer;
+    padding: 0 24px;
+    border-radius: 50px;
+    min-width: 100px;
+    height: 50px;
+    font-size: 18px;
+    background-color: #fd0;
+    font-weight: 500;
+    color: #222;
+
+}
