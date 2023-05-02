@@ -43,7 +43,8 @@ function TodoCard({task,handleDone,handleDelete, handleSelectEdit,isEdit,handleE
                         onClick={() => handleDelete(task.id)}>
                     Delete
                 </button>
-                <button onClick={()=> handleSelectEdit(task.id)}>
+                <button  className={classes.edit}
+                         onClick={()=> handleSelectEdit(task.id)}>
                     edit
                 </button>
 

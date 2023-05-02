@@ -23,6 +23,14 @@
     height: 40px;
 }
 
+.edit {
+    background-color: #2fff00;
+    margin-left: 10px;
+    border-radius: 8px;
+    width: 60px;
+    height: 40px;
+}
+
 .copmleted {
     margin-left: 10px;
 

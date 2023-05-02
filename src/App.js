@@ -1,5 +1,5 @@
 import Modal from "./components/Modal/Modal";
-import React, {useState } from "react";
+import React, {useState,useEffect } from "react";
 import classes from "./App.module.css";
 import Container from "./components/container/Container";
 import Button from "./components/button/Button";
@@ -10,31 +10,12 @@ function App() {
     const [newTask, setNewTask] = useState('')
     const [filter, setFilter] = useState("all");
     const [search, setSearch] = useState('')
-    const [currentEdit, setCurrentEdit] = useState('')
-    const [tasks, setTasks] = useState(
-        [
-            {
-                id:1 ,
-                title: 'coding',
-                completed:false
-            },
-            {
-                id:2,
-                title: 'eat',
-                completed:false
-            },
-            {
-                id:3,
-                title: 'sleep',
-                completed:false
-            },
-            {
-                id:4,
-                title: 'coding',
-                completed:false
-            }
-        ]
-    )
+    const [currentEdit, setCurrentEdit] = useState(null)
+    const [tasks, setTasks] = useState([
+
+
+
+    ])
 
     const handleShow = () => {
         setIsShow(!isShow)
@@ -95,13 +76,22 @@ const handleCancel = (currentEdit) =>{
         return task.title.toLowerCase().includes(search.toLowerCase()) &&
             (filter === 'all' || (filter === 'true' && task.completed) || (filter === 'false' && !task.completed));
     });
-const user = {
-    name:'Islam',
-    position:'Frontend'
+    useEffect(()=>{
+        const myLocalTasks = JSON.parse(localStorage.getItem('taskList'))
+        // if(myLocalTasks.length !== 0) {
+            setTasks(myLocalTasks)
 
-}
-    localStorage.setItem('taskList', JSON.stringify(user))
-    localStorage.removeItem('taskList')
+    },[])
+   useEffect(()=>{
+       localStorage.setItem('taskList', JSON.stringify(tasks))
+   },[tasks])
+
+    const handleClearTasks = () => {
+        setTasks([]);
+        localStorage.removeItem("taskList");
+
+    }
+
 
     return(
         <>
@@ -121,6 +111,13 @@ const user = {
                         Добавить
                     </p>
                 </Button>
+                <button onClick={handleClearTasks}
+                        className={classes.clear}>
+                    <p>
+                        Удалить все задание
+                    </p>
+                </button>
+
                     <input type="text" name="search" placeholder="Поиск" onChange={event => setSearch(event.target.value)}
                     />
                     {filteredTasks.map(task =>
